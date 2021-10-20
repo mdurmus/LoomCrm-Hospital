@@ -1,0 +1,84 @@
+﻿
+@{
+    ViewBag.Title = "Randevu Ajandam";
+}
+
+<div class="box box-danger">
+    <div class="box-header with-border">
+        <h3 class="box-title">Randevu Ajandam</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            <div id="calendar">
+
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+
+
+
+
+@section ListAppointmentScriptDoctor
+{
+    <script>
+        $(document).ready(function () {
+
+            $('#calendar').fullCalendar({
+                defaultDate: moment(),
+                defaultView: 'agendaDay',
+                slotLabelFormat: 'HH:mm',
+                axisFormat: 'h:mm a',
+                editable: false,
+                allDay: false,
+                weekends: false,
+                slotDuration : "00:10:00",
+                minTime:"09:00:00",
+                maxTime:"17:00:00",
+                businessHours: [{
+                    dow: [1, 2, 3, 4, 5], // Maybe not 0,6? Sunday,Saturday
+                    start: '09:00',
+                    end: '12:30',
+                    rendering: 'inverse-background'
+                },
+                {
+                    dow: [1, 2, 3, 4, 5], // Maybe not 0,6? Sunday,Saturday
+                    start: '13:30',
+                    end: '18:00',
+                    rendering: 'inverse-background'
+                }],
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listDay'
+                },
+                views: {
+                    day: { titleFormat: 'DD MMM YY ddd' },
+                    listDay: { buttonText: 'Günlük Liste' }
+                },
+                events: {
+                    url: '@Url.Action("ListAppointment", "Appointment")',
+                    type: 'POST',
+                    data: function () { return { doctorId: @ViewBag.doctorId } },
+                    error: function () {
+                        alert("Hata Oluştu");
+                    }
+                }
+            });
+        });
+
+        $("input[name='gsmOption']").change(function () {
+            if (this.value == "savedGsm") {
+                $("div#differentGsm").hide();
+            } else if (this.value == "unsavedGsm") {
+                $("div#differentGsm").show();
+            }
+        })
+
+
+
+    </script>
+}

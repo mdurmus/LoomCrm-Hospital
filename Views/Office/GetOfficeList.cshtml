@@ -1,0 +1,62 @@
+﻿@model IEnumerable<LoomCrm_Hospital.Models.Office>
+@{ViewBag.Title = "Şube Listesi";}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Şubelerimiz</h3>
+
+                <div class="box-tools" >
+                    @Html.ActionLink("Yeni Şube", "CreateOffice","Office",null,new {@class="btn btn-info pull-right" })
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Adı</th>
+                            <th>Krokisi</th>
+                            <th>Eklenme Tarihi</th>
+                            <th>Durumu</th>
+                            <th>İşlemler</th>
+                        </tr>
+                     @foreach (var item in Model)
+                     {
+                        <tr>
+                            <td>@item.name</td>
+                            <td><a href="@item.mapsUrl" target="_blank">@item.mapsUrl</a></td>
+                            <td>@item.creationDate.ToShortDateString()</td>
+                            @if (item.isActive == true)
+                            {
+                                <td><span class="label label-success">Aktif</span></td>
+                            }
+                            else
+                            {
+                                <td><span class="label label-danger">Pasif</span></td>
+                            }
+                            <td>
+                                @Html.ActionLink("Düzenle","EditOffice","Office",new {officeId=item.officeId },new {@class="btn btn-warning" })
+                                @if (item.isActive == true)
+                                {
+                                    @Html.ActionLink("Pasif Et","OfficeStatus","Office",new {officeId=item.officeId },new { @class="btn btn-danger"})
+
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Aktif Et", "OfficeStatus", "Office", new { officeId = item.officeId }, new { @class = "btn btn-success" })
+                                }
+
+                            </td>
+                        </tr>
+                     }
+                        
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>

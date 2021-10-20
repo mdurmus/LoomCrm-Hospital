@@ -1,0 +1,165 @@
+﻿@model LoomCrm_Hospital.Models.VMAppointment
+@{
+
+    bool officeSupport = Convert.ToBoolean(Session["officeSupport"]);
+    bool departmentSupport = Convert.ToBoolean(Session["departmentSupport"]);
+}
+
+
+<div class="box box-default color-palette-box">
+    <div class="box-header with-border">
+        <h3 class="box-title"><i class="fa fa-tag"></i> Seçiminizi Güncelleyin</h3>
+    </div>
+    <div class="box-body">
+        <div class="row">
+            @if (officeSupport == false && departmentSupport == false)
+            {
+                <div class="col-md-12">
+                    @Html.ActionLink("Doktoru Değiştir", "GetDoctor", "Appointment", new { officeId = Model.officeId, departmentId = Model.departmentId }, new { @class = "btn btn-lg btn-success col-md-12 col-xs-12" })
+                </div>
+            }
+            else if (officeSupport == false && departmentSupport == true)
+            {
+                <div class="col-md-12">
+                    @Html.ActionLink("Poliklinik Değiştir", "GetDepartment", "Appointment", new { officeId = Model.officeId }, new { @class = "btn btn-lg btn-info col-md-6 col-xs-6" })
+                    @Html.ActionLink("Doktoru Değiştir", "GetDoctor", "Appointment", new { officeId = Model.officeId, departmentId = Model.departmentId }, new { @class = "btn btn-lg btn-success col-md-6 col-xs-6" })
+                </div>
+            }
+            else
+            {
+                <div class="col-md-12">
+                    @Html.ActionLink("Şube Değiştir", "GetOffice", "Appointment", null, new { @class = "btn btn-lg btn-warning col-md-4 col-xs-12" })
+                    @Html.ActionLink("Poliklinik Değiştir", "GetDepartment", "Appointment", new { officeId = Model.officeId }, new { @class = "btn btn-lg btn-info col-md-4 col-xs-12" })
+                    @Html.ActionLink("Doktoru Değiştir", "GetDoctor", "Appointment", new { officeId = Model.officeId, departmentId = Model.departmentId }, new { @class = "btn btn-lg btn-success col-md-4 col-xs-12" })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@*Takvim Ekranı*@
+<div class="row">
+    <div class="col-md-6 col-xs-12">
+        <div class="box box-default color-palette-box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-tag"></i>Doktor Takvimi</h3>
+                <p style="color:red;font-size:24px;font-weight:bold;">@ViewBag.Message</p>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div id="calendar">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Randevu Al Formu*@
+    <div class="col-md-6 col-xs-12">
+        <div class="box box-default color-palette-box">
+            <div class="box-header with-border">
+                <h3 class="box-title"><i class="fa fa-tag"></i>Randevu Ekle</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("CreateAppointment", "Appointment", FormMethod.Post, new { @novalidate = "novalidate" }))
+                {
+                    @Html.Hidden("doctorId", @Model.doctorId)
+                    @Html.Hidden("officeId", @Model.officeId)
+                    @Html.Hidden("departmentId", @Model.departmentId)
+                    @Html.Hidden("patientId", Convert.ToInt32(Session["userId"]))
+                    <p>Şubeniz <b>@Model.officeName</b> </p>
+                    <p>Polikliniğiniz <b>@Model.departmentName</b> </p>
+                    <p>Doktorunuz <b>@Model.doctorName</b></p>
+                    <div class="form-group">
+                        <label class="control-label">Randevu Tarihi</label>
+                        <input type="datetime-local" class="form-control" required="required" name="appointmentStartDate" />
+                    </div>
+                    <div class="form-group">
+                        <div class="radio">
+                            <label class="control-label">
+                                <input type="radio" value="savedGsm" name="gsmOption" />
+                                Sms Kayıtlı numarama gönderilsin.
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="radio">
+                            <label class="control-label">
+                                <input type="radio" value="unsavedGsm" name="gsmOption" />
+                                Sms Kayıtlı başka numaraya gönderilsin.
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" id="differentGsm" style="display:none">
+                        <label class="control-label">Mesaj Gönderilecek Numara</label>
+                        <input type="text" class="form-control" required="required" name="diffGsmNumber" />
+                    </div>
+                    <div class="box-footer">
+                        <button type="submit" class="btn btn-primary">Randevu Al</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section GetAppointmentScriptPatient
+{
+    <script>
+        $(document).ready(function () {
+
+            $('#calendar').fullCalendar({
+                defaultDate: moment(),
+                defaultView: 'agendaDay',
+                slotLabelFormat: 'HH:mm',
+                axisFormat: 'h:mm a',
+                editable: false,
+                allDay: false,
+                weekends: false,
+                slotDuration : "00:10:00",
+                minTime:"09:00:00",
+                maxTime:"17:00:00",
+                businessHours: [{
+                    dow: [1, 2, 3, 4, 5], // Maybe not 0,6? Sunday,Saturday
+                    start: '09:00',
+                    end: '12:30',
+                    rendering: 'inverse-background'
+                },
+                {
+                    dow: [1, 2, 3, 4, 5], // Maybe not 0,6? Sunday,Saturday
+                    start: '13:30',
+                    end: '18:00',
+                    rendering: 'inverse-background'
+                }],
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listDay'
+                },
+                views: {
+                    day: { titleFormat: 'DD MMM YY ddd' },
+                    listDay: { buttonText: 'Günlük Liste' }
+                },
+                events: {
+                    url: '@Url.Action("ListAppointment", "Appointment")',
+                    type: 'POST',
+                    data: function () { return { doctorId: @Model.doctorId } },
+                    error: function () {
+                        alert("Hata Oluştu");
+                    }
+                }
+            });
+        });
+
+        $("input[name='gsmOption']").change(function () {
+            if (this.value == "savedGsm") {
+                $("div#differentGsm").hide();
+            } else if (this.value == "unsavedGsm") {
+                $("div#differentGsm").show();
+            }
+        })
+
+
+
+    </script>
+}

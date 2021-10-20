@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "Sms Onayı";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-text-width"></i>
+
+                <h3 class="box-title">Hasta Onayı</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <dl>
+                    <dt>Randevu Aldığınız Şube</dt>
+                    <dd>@ViewBag.Office</dd>
+                    <dt>Randevu Aldığınız Birim</dt>
+                    <dd>@ViewBag.Department</dd>
+                    <dt>Doktorunuz</dt>
+                    <dd>@ViewBag.DoctorName</dd>
+                    <dt>Rndevu Tarihi Ve Saati</dt>
+                    <dd>@ViewBag.Date</dd>
+                </dl>
+
+
+                @using (Html.BeginForm("EnterValidateCode", "Appointment", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <label class="control-label">4 Haneli Sms Kodu</label>
+                        <input type="text" name="code" value="@ViewBag.SmsCode" class="form-control" />
+                        <input type="hidden" name="appointmentId" value="@ViewBag.AppointmentId" />
+                    </div>
+                    <div class="box-footer">
+                        <input type="submit" value="Kaydet" />
+                    </div>
+                }
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>

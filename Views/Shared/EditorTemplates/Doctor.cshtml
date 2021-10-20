@@ -1,0 +1,26 @@
+﻿@model LoomCrm_Hospital.Models.Doctor
+@{ViewBag.Title = "Doctor";}
+<div class="col-md-2">
+    <div class="thumbnail">
+        @if (Model.doctorPictureFile != null)
+        {
+            <img src=@Url.Content(Model.doctorPictureFile) style="width:250px;height:200px;" class="col-md-12 img-responsive">
+        }
+        else
+        {
+            <img src=@Url.Content("~/Images/avatar.png") style="width:250px;height:200px;" class="col-md-12 img-responsive">
+        }
+        <div class="caption">
+            <div class="page-header">Doktor Bilgileri</div>
+            <h4>@Model.name @Model.SurName</h4>
+            <h4>@Model.Department.name</h4>
+            @using (Html.BeginForm("SelectDoctor", "Appointment", FormMethod.Post))
+            {
+                <input type="hidden" name="officeId" value="@ViewBag.officeId" />
+                <input type="hidden" name="departmentId" value="@ViewBag.departmentId" />
+                <input type="hidden" name="doctorId" value="@Model.doctorId" />
+                <input type="submit" value="Seç" class="btn btn-success btn-block" />
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Personal Sayfası";
+}
+@*Ufak bilgi kutuları*@
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h3>150</h3>
+
+                <p>Hasta</p>
+            </div>
+            <div class="icon">
+                <i class=""></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Detaylı Bilgi <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h3>53<sup style="font-size: 20px">%</sup></h3>
+
+                <p>Deneme</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Detaylı Bilgi <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <h3>44</h3>
+
+                <p>Ameliyat İsteği</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person-add"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Detaylı Bilgi <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+        <!-- small box -->
+        <div class="small-box bg-red">
+            <div class="inner">
+                <h3>65</h3>
+
+                <p>Cevapsız Müşteri</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+            </div>
+            <a href="#" class="small-box-footer">
+                Detaylı Bilgi <i class="fa fa-arrow-circle-right"></i>
+            </a>
+        </div>
+    </div>
+    <!-- ./col -->
+</div>
+
+@*Örnek Randevu tablosu*@
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Son Eklenen Randevular</h3>
+
+                <div class="box-tools" style="display:none;">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                        <div class="input-group-btn">
+                            <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Şube</th>
+                            <th>Poliklinik</th>
+                            <th>Doktor</th>
+                            <th>Randevu Tarihi</th>
+                            <th>Randevu Saati</th>
+                            <th>Hasta Adı</th>
+                            <th>Hasta Soyadı</th>
+                            <th>Telefon</th>
+                        </tr>
+                        
+                        <tr>
+                            <td>Acıbadem</td>
+                            <td>KBB</td>
+                            <td>Osman Güner</td>
+                            <td>11/05/2017</td>
+                            <td>10:30</td>
+                            <td>Hasan</td>
+                            <td>Yılmaz</td>
+                            <td>54462165796</td>
+                        </tr>
+                        <tr>
+                            <td>Acıbadem</td>
+                            <td>KBB</td>
+                            <td>Fatih Güner</td>
+                            <td>11/05/2017</td>
+                            <td>10:30</td>
+                            <td>Mehmet</td>
+                            <td>Durmuş</td>
+                            <td>54462165796</td>
+                        </tr>
+                        <tr>
+                            <td>Acıbadem</td>
+                            <td>KBB</td>
+                            <td>Ali Güner</td>
+                            <td>11/05/2017</td>
+                            <td>10:30</td>
+                            <td>Hüseyin</td>
+                            <td>Yılmaz</td>
+                            <td>54462165796</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>

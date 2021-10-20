@@ -1,0 +1,19 @@
+﻿@model LoomCrm_Hospital.Models.Office
+<div class="col-md-4 col-xs-12">
+    <div class="thumbnail">
+        <div class="caption">
+            @if (Model.officePicturePath == null)
+            {
+               <img src="@Url.Content("~/Images/dorukLogo.png")" style="width:250px;height:150px;" class="img-responsive" />
+            }
+            <img src="@Url.Content(Model.officePicturePath)" style="width:250px;height:200px;" class="img-responsive" />
+            <h3 class="page-header">@Model.name Şubesi</h3>
+            <h4 class="text-center"><a href="@Model.mapsUrl" target="_blank"><b>Haritada Göster</b></a></h4>
+            @using (Html.BeginForm("SelectOffice", "Appointment", FormMethod.Post))
+            {
+                <input type="hidden" name="officeId" value="@Model.officeId" />
+                    <input type="submit" value="Seç" class="btn btn-success btn-block" />
+            }
+        </div>
+    </div>
+</div>

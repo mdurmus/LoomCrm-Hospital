@@ -1,0 +1,399 @@
+﻿@{
+    int userId = Convert.ToInt32(Session["userId"]);
+    string userType = Convert.ToString(Session["userType"]);
+
+    bool officeSupport = Convert.ToBoolean(Session["officeSupport"]);
+    bool departmentSupport = Convert.ToBoolean(Session["departmentSupport"]);
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loom CRM Hospital</title>
+    @Styles.Render("~/Content/stiller")
+    @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        @*Üst çubuk kısmı*@
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="http://www.loomcrm.com" target="_blank" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>L</b>C</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Loom</b>Crm</span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Kayan Menü</span>
+                </a>
+                <!--Üstteki menü (kullanıcı, bildirim menüleri)-->
+                <div class="navbar-custom-menu" >
+                    <ul class="nav navbar-nav">
+                        <!-- Mesajlar-->
+                        <li class="dropdown messages-menu" style="display:none;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-envelope-o"></i>
+                                <span class="label label-success">2</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">2 yeni mesajınız var!</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <!-- start message -->
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="@Url.Content("~/Images/avatar.png")" class="img-circle" alt="User Image">
+                                                </div>
+                                                <h4>
+                                                    Destek Ekibi
+                                                    <small><i class="fa fa-clock-o"></i> 5 dakika</small>
+                                                </h4>
+                                                <p>Yeni temalarımıza baktınız mı?</p>
+                                            </a>
+                                        </li>
+                                        <!-- end message -->
+                                        <li>
+                                            <a href="#">
+                                                <div class="pull-left">
+                                                    <img src="@Url.Content("~/Images/avatar.png")" class="img-circle" alt="User Image">
+                                                </div>
+                                                <h4>
+                                                    Me-Fa Ekibi sizinle
+                                                    <small><i class="fa fa-clock-o"></i> 2 saat</small>
+                                                </h4>
+                                                <p>Neden yeni sürüme geçmiyorsunuz?</p>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">Tüm mesajları görüntüle</a></li>
+                            </ul>
+                        </li>
+                        <!-- Bildirimler-->
+                        <li class="dropdown notifications-menu" style="display:none;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">5</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">5 adet bildiriminiz bulunmaktadır.</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i> Bugün 5 yeni müşterimiz oldu
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-warning text-yellow"></i> Kuaförler odasının XML yapısı yenilendi
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-red"></i> 5 yeni hizmet eklendi
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-shopping-cart text-green"></i> 25 ürün satışı yapıldı
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-user text-red"></i> Kullanıcı adımız değişti
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">Tümünü Görüntüle</a></li>
+                            </ul>
+                        </li>
+                        <!-- Görevler -->
+                        <li class="dropdown tasks-menu" style="display:none;">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-flag-o"></i>
+                                <span class="label label-danger">4</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">4 görev bildirimi</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <p>Makbuzları kes</p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                        <li>
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <p>Fatura ödemelerini yap</p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                        <li>
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <p>
+                                                    Tanıtım kataloglarını bastır.
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                        <li>
+                                            <!-- Task item -->
+                                            <a href="#">
+                                                <p>
+                                                    Eğitim destek hizmeti planla
+                                                </p>
+                                            </a>
+                                        </li>
+                                        <!-- end task item -->
+                                    </ul>
+                                </li>
+                                <li class="footer">
+                                    <a href="#">Tüm görevleri görüntüle</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Kullanıcı Menüsü-->
+                        @Html.Action("UserDetail", "Login", new { userId = userId, userType = userType })
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Sol Ana Menü -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                @*Menü alanı*@
+                @if (userType == "personal")
+                {
+                    <ul class="sidebar-menu">
+                        <li class="header">Ana Menü</li>
+                        @*Randevular*@
+                        <li class="active treeview">
+                            <a href="#">
+                                <i class="fa fa-edit"></i> <span>Randevular</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active"><a href="@Url.Action("GetAppointmentListToDay", "Appointment")"><i class="fa fa-circle-o"></i> Anlık Randevular</a></li>
+                            </ul>
+                        </li>
+                        @*Şube Menüsü*@
+                        @if (officeSupport == true)
+                        {
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-hospital-o"></i> <span>Şubelerimiz</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="@Url.Action("GetOfficeList", "Office")"><i class="fa fa-circle-o"></i>Şube Liste</a></li>
+                                    <li><a href="@Url.Action("GetOfficeBox", "Office")"><i class="fa fa-circle-o"></i>Şube Kutu</a></li>
+                                    <li><a href="@Url.Action("CreateOffice", "Office")"><i class="fa fa-circle-o"></i>Yeni Şube</a></li>
+                                </ul>
+                            </li>
+                        }
+                        @*Poliklinikler Menüsü*@
+                        @if (departmentSupport == true)
+                        {
+                            <li class="treeview">
+                                <a href="#">
+                                    <i class="fa fa-heartbeat"></i>
+                                    <span>Poliklinikler</span>
+                                    <span class="pull-right-container">
+                                        <i class="fa fa-angle-left pull-right"></i>
+                                    </span>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a href="@Url.Action("GetDepartmentList", "Department")"><i class="fa fa-circle-o"></i>Poliklinikler</a></li>
+                                    <li>
+                                        <a href="@Url.Action("CreateDepartment", "Department")">
+                                            <i class="fa fa-circle-o">
+                                            </i>Poliklinik Ekle
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        @*Doktorlar Menüsü*@
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-user-md"></i>
+                                <span>Doktorlar</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("GetDoctorList", "Doctor")"><i class="fa fa-circle-o"></i>Doktor Listesi</a></li>
+                                <li><a href="@Url.Action("CreateDoctor", "Doctor")"><i class="fa fa-circle-o"></i> Doktor Ekle</a></li>
+                                <li><a href="@Url.Action("DoctorTakeOff", "Doctor")"><i class="fa fa-circle-o"></i>Doktor'a TatilVer</a></li>
+
+
+
+                            </ul>
+                        </li>
+
+                        @*Personeller Menüsü*@
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-user"></i>
+                                <span>Personeller</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("GetPersonalList", "Personal")"><i class="fa fa-circle-o"></i>Personel Listesi</a></li>
+                                <li><a href="@Url.Action("CreatePersonal", "Personal")"><i class="fa fa-circle-o"></i> Personel Ekle</a></li>
+
+                            </ul>
+                        </li>
+
+                        @*Hasta Menüsü*@
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-user"></i>
+                                <span>Hastalar</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("GetPatientList", "Patient")"><i class="fa fa-circle-o"></i>Hasta Listesi</a></li>
+                                <li><a href="@Url.Action("CreatePatient", "Patient")"><i class="fa fa-circle-o"></i> Hasta Ekle</a></li>
+
+                            </ul>
+                        </li>
+
+                        @*Raporlar*@
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-print"></i> <span>Raporlar</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("GetOfficeDepartmentReport", "Reports")"><i class="fa fa-circle-o"></i> Şube - Polikliniğe Göre</a></li>
+                                <li><a href="@Url.Action("GetReportByDoctorId", "Reports")"><i class="fa fa-circle-o"></i> Doktora Göre</a></li>
+                                <li><a href="@Url.Action("GetReportByPatient", "Reports")"><i class="fa fa-circle-o"></i> Hastaya Göre</a></li>
+
+
+                            </ul>
+                        </li>
+                        @*Ayarlar Menüsü*@
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-save"></i> <span>Ayarlar</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("GetHospitalInfo", "MyHospital")"><i class="fa fa-circle-o"></i>Sistem Ayarları</a></li>
+
+                            </ul>
+                        </li>
+
+                    </ul>
+                }
+                else if (userType == "patient")
+                {
+                    <ul class="sidebar-menu">
+                        <li class="header">Ana Menü</li>
+                        <li class="active"><a href="@Url.Action("PatientPage", "Home")"><i class="fa fa-home"></i>Ana Sayfam</a></li>
+                        @*Randevular*@
+                        <li class="active treeview">
+                            <a href="#">
+                                <i class="fa fa-plus"></i> <span>Hasta Menüsü</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active"><a href="@Url.Action("GetOffice", "Appointment")"><i class="fa fa-circle-o"></i>Randevu Al</a></li>
+                                <li><a href="@Url.Action("GetRecentAppointment", "Patient")"><i class="fa fa-circle-o"></i> Geçmiş Randevular</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
+                else if (userType == "doctor")
+                {
+                    <ul class="sidebar-menu">
+                        <li class="header">Ana Menü</li>
+                        <li class="active"><a href="@Url.Action("DoctortPage", "Home")"><i class="fa fa-home"></i>Ana Sayfam</a></li>
+                        @*Randevular*@
+                        <li class="active treeview">
+                            <a href="#">
+                                <i class="fa fa-plus"></i> <span>Doktor Menüsü</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="active"><a href="@Url.Action("GetMyAppointment", "Doctor")"><i class="fa fa-circle-o"></i>Randevularım</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                }
+
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Sayfa içerikleri -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <!-- Main content -->
+            <section class="content">
+                @RenderBody()
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- Footer -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 1.0.0
+            </div>
+            <strong>Copyright &copy; 2017<a href="http://www.loomcrm.com" target="_blank">Loom CRM</a>.</strong> Tüm Hakkı Saklıdır.
+        </footer>
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+       <script>
+           $.widget.bridge('uibutton',$.ui.button);
+    </script>
+    @RenderSection("GetDepartment",false)
+    @RenderSection("Randevular",false)
+    @RenderSection("PatientForm",false)
+    @RenderSection("GetAppointmentScriptPatient", false)
+    @RenderSection("ListAppointmentScriptDoctor", false)
+    <style type="text/css">
+        #calendar {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+    </style>
+</body>
+</html>

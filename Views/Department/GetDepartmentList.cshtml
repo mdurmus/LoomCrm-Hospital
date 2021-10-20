@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LoomCrm_Hospital.Models.Department>
+@{ViewBag.Title = "Polikliniklerimiz";}
+
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Polikliniklerimiz</h3>
+
+                <div class="box-tools">
+                    @Html.ActionLink("Yeni Poliklinik", "CreateDepartment", "Department", null, new { @class = "btn btn-info pull-right" })
+                </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+                <table class="table table-hover">
+                    <tbody>
+                        <tr>
+                            <th>Adı</th>
+                            <th>Şubesi</th>
+                            <th>Muayene Süresi</th>
+                            <th>Aktif Mi</th>
+                            <th>İşlemler</th>
+                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.name</td>
+                                <td>@item.Office.name</td>
+                                <td>@item.medicalExamDuration</td>
+                                @if (item.isActive == true)
+                                {
+                                    <td><span class="label label-success">Aktif</span></td>
+                                }
+                                else
+                                {
+                                    <td><span class="label label-danger">Pasif</span></td>
+                                }
+
+                                <td>
+                                    @Html.ActionLink("Düzenle", "EditDepartment", "Department", new { departmentId = item.departmentId }, new { @class = "btn btn-warning" })
+                                    @if (item.isActive == true)
+                                    {
+                                        @Html.ActionLink("Pasif Et", "DepartmentStatus", "Department", new { departmentId = item.departmentId }, new { @class = "btn btn-danger" })
+                                    }
+                                    else
+                                    {
+                                        @Html.ActionLink("Aktif Et", "DepartmentStatus", "Department", new { departmentId = item.departmentId }, new { @class = "btn btn-success" })
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>

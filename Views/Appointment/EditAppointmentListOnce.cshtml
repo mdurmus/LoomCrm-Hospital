@@ -1,0 +1,103 @@
+﻿@model LoomCrm_Hospital.Models.Appointment
+@{ViewBag.Title = "Tek Randevuyu Düzenle";}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <i class="fa fa-calendar-o"></i>
+                <h3 class="box-title">Randevu Bilgileri</h3>
+            </div>
+            <div class="box-body">
+                <dl class="dl-horizontal">
+                    <dt>Hasta</dt>
+                    <dd>@Model.Patient.Name @Model.Patient.surName</dd>
+                    <dt>Randevu Numarası</dt>
+                    <dd>@Model.appointmentId</dd>
+                    <dt>Randevu Tarihi</dt>
+                    <dd>@Model.appointmentStartDate.ToShortDateString()</dd>
+                    <dt>Randevu Saati</dt>
+                    <dd>@Model.appointmentStartDate.ToShortTimeString()</dd>
+                    <dt>Şube</dt>
+                    <dd>@Model.Doctor.Department.Office.name</dd>
+                    <dt>Poliklinik</dt>
+                    <dd>@Model.Doctor.Department.name</dd>
+                    <dt>Doktor</dt>
+                    <dd>@Model.Doctor.name @Model.Doctor.SurName</dd>
+                </dl>
+            </div>
+            <div class="box-footer">
+                @using (Html.BeginForm("EditAppointmentListOnce", "Appointment",FormMethod.Post, new { @novalidate = "novalidate" }))
+                {
+                    @Html.AntiForgeryToken()
+                   
+                    <div class="form-group">
+                        @Html.Label("Doktor", null, new { @class = "control-label col-md-2" })
+                        @Html.DropDownList("doctorId", ViewBag.doctorId as SelectList, new { @class = "form-control col-md-10" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Randevu Tarihi", null, new { @class = "control-label col-md-2" })
+                        <input type="datetime-local" name="appointmentStartDate" class="form-control col-md-10" required="required" />
+                    </div>
+                    @Html.Hidden("appId",Model.appointmentId)
+                    <input type="hidden" name="patientId" value="@Model.Patient.patientId" />
+                    <input type="hidden" name="startDate" value="@ViewBag.startDate" />
+                    <input type="hidden" name="finishDate" value="@ViewBag.finishDate" />
+                    <input type="hidden" name="oldDoctorId" value="@ViewBag.oldDoctorId" /><br />
+                    <button type="submit" class="btn btn-warning btn-block">deneme</button>
+                }
+               
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="calendar">
+
+        </div>
+    </div>
+</div>
+
+
+@section GetDepartment{
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#officeId").change(function () {
+            $("#departmentId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDepartment", "Doctor")',
+                dataType: 'JSON',
+                data: { officeId: $("#officeId").val() },
+                success: function (departments) {
+                    $.each(departments, function (i, departments) {
+                        $("#departmentId").append('<option value="' + departments.Value + '">' + departments.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Departmanlar çekilemedi.' + ex);
+                }
+            });
+            return false;
+        })
+
+        $("#departmentId").change(function () {
+            $("#doctorId").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetDoctor", "Doctor")',
+                dataType: 'JSON',
+                data: { departmentId: $("#departmentId").val() },
+                success: function (doctors) {
+                    $.each(doctors, function (i, doctors) {
+                        $("#doctorId").append('<option value="' + doctors.Value + '">' + doctors.Text + '</option>');
+                    });
+                },
+                error: function (ex) {
+                    alert('Doktorlar çekilemedi.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+    </script>
+}

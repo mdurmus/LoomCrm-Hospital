@@ -1,0 +1,56 @@
+﻿@model LoomCrm_Hospital.Models.VMUser
+
+<li class="dropdown user user-menu">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" >
+        @if (Model.photoFile != null)
+        {
+            <img src="@Url.Content(Model.photoFile)" class="user-image" alt="User Image">
+        }
+        else
+        {
+            <img src="~/Images/avatar.png" class="user-image" alt="User Image">
+
+        }
+        <span class="hidden-xs">@Model.Name @Model.surName</span>
+    </a>
+    <ul class="dropdown-menu">
+        <!-- User image -->
+        <li class="user-header">
+            @if (Model.photoFile != null)
+            {
+                <img src="@Url.Content(Model.photoFile)" class="img-circle" alt="User Image">
+            }
+            else
+            {
+                <img src="~/Images/avatar.png" class="img-circle" alt="User Image">
+            }
+            <p>
+                @Model.Name @Model.surName - @Model.gsmNumber
+                <small>@Model.registeredDate</small>
+            </p>
+        </li>
+        <!-- Menu Footer-->
+        <li class="user-footer">
+            @if (Model.userType == LoomCrm_Hospital.Models.userType.Patient)
+            {
+                <div class="pull-left">
+                    <a href="@Url.Action("EditPatient","Patient",new { patientId=Model.userId },null)" class="btn btn-default btn-flat">Profilim</a>
+                </div>
+            }
+            else if (Model.userType == LoomCrm_Hospital.Models.userType.Personal)
+            {
+                <div class="pull-left">
+                    <a href="@Url.Action("EditPersonal","Personal",new { personalId=Model.userId },null)" class="btn btn-default btn-flat">Profilim</a>
+                </div>
+            }
+            else
+            {
+                <div class="pull-left">
+                    <a href="@Url.Action("EditDoctor","Doctor",new { doctorId=Model.userId },null)" class="btn btn-default btn-flat">Profilim</a>
+                </div>
+            }<div class="pull-right">
+                <a href="@Url.Action("LogOut","Login")" class="btn btn-default btn-flat">Çıkış Yap</a>
+            </div>
+        </li>
+    </ul>
+</li>

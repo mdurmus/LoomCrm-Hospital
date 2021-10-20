@@ -1,0 +1,74 @@
+﻿@model LoomCrm_Hospital.Models.Personal
+@{ViewBag.Title = "Personel Düzenle";}
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Model.Name @Model.surName Düzenle</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("EditPersonal", "Personal", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label class="control-label">Adı</label>
+                        <input type="text" name="Name" value="@Model.Name" class="form-control" />
+                    </div>
+                        <div class="form-group">
+                            <label class="control-label">Soyadı</label>
+                            <input type="text" name="surName" value="@Model.surName" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">GSM Numarası</label>
+                            <input type="tel" class="form-control" name="gsmNumber" value="@Model.gsmNumber" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">
+                                Şifresi
+                            </label>
+                            <input type="text" class="form-control" name="password" value="@Model.password" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Email Adresi</label>
+                            <input type="email" class="form-control" name="EmailAddress" value="@Model.EmailAddress" />
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Profil Fotoğrafı</label>
+                            <input type="file" name="photoFile" accept="image/*" class="form-control" />
+                        </div>
+                        <div class="box-footer">
+                            <input type="hidden" value="@Model.personalId" name="personalId" />
+                            <input type="submit" class="btn btn-info btn-block" value="Kaydet" />
+                        </div>
+                }
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Profil Fotoğrafı</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (Model.photoFile != null)
+                        {
+                            <img class="img-responsive" style="margin: 0 auto;width:350px;height:auto;" src="@Url.Content(Model.photoFile)" />
+                        }
+                        else
+                        {
+                            <img class="img-responsive" style="margin: 0 auto;width:350px;height:auto;" src="~/Images/avatar.png" />
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<LoomCrm_Hospital.Models.Office>
+@{ ViewBag.Title = "Şube Listesi";}
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.ActionLink("Yeni Şube", "CreateOffice", "Office", null, new { @class = "btn btn-info btn-block" })
+    </div>
+</div>
+<br />
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <!-- Widget: user widget style 1 -->
+            <div class="box box-widget widget-user-2">
+                <!-- Add the bg color to the header using any of the bg-* classes -->
+                <div class="widget-user-header bg-yellow">
+                    <div class="widget-user-image">
+                        <img class="img-thumbnail img-responsive" src="@Url.Content(item.officePicturePath)" alt="Şube Görseli">
+                    </div>
+                    <!-- /.widget-user-image -->
+                    <h3 class="widget-user-username">@item.name</h3>
+                    <h5 class="widget-user-desc">@item.creationDate.ToShortDateString()</h5>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-stacked">
+                        <li><a href="#">Şube Adı <span class="pull-right badge bg-aqua">@item.name</span></a></li>
+                        <li><a href="#">Ekleniş Tarihi<span class="pull-right badge bg-blue">@item.creationDate.ToShortDateString()</span></a></li>
+                        <li><a href="@item.mapsUrl" target="_blank">Krokisi <span class="pull-right badge bg-green">Göster</span></a></li>
+                        <li>
+                            <a href="#">
+                                Aktif mi?
+                                @if (item.isActive == true)
+                                {
+                                    @Html.ActionLink("Pasif Et", "OfficeStatus", "Office", new { officeId = item.officeId }, new { @class = "btn btn-danger btn-block" })
+
+                                }
+                                else
+                                {
+                                    @Html.ActionLink("Aktif Et", "OfficeStatus", "Office", new { officeId = item.officeId }, new { @class = "btn btn-success btn-block" })
+                                }
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+
+
+</div>
+
+
+@*@foreach (var item in Model)
+    {
+        <div class="card col-md-4" style="width:20rem;">
+            <img class="card-img-top img-responsive" src="@Url.Content(item.officePicturePath)" alt="@item.name">
+            <div class="card-block">
+                <h4 class="card-title">@item.name şubesi</h4>
+                <p class="card-text">@item.creationDate<br />@item.mapsUrl</p>
+                <a href="#" class="btn btn-primary">Detaylar</a>
+            </div>
+        </div>
+    }*@

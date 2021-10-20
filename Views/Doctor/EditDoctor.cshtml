@@ -1,0 +1,133 @@
+﻿@model LoomCrm_Hospital.Models.Doctor
+@{ViewBag.Title = "Doktor Düzenle";}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Model.name @Model.SurName Düzenle</h3>
+            </div>
+            <div class="box-body">
+                @using (Html.BeginForm("EditDoctor", "Doctor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.TCIdentityNumber, null, new { @class = "control-label col-md-12" })
+                        <input type="text" name="TCIdentityNumber" value="@Model.TCIdentityNumber" min="11" max="11" readonly="readonly" class="form-control" />
+                        @Html.ValidationMessageFor(p => p.TCIdentityNumber, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.name, null, new { @class = "control-label col-md-12" })
+                        @*@Html.EditorFor(p => p.name, null, new { @class = "form-control" })*@
+                        <input type="text" class="form-control" name="name" value="@Model.name" />
+                        @Html.ValidationMessageFor(p => p.name, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.SurName, null, new { @class = "control-label col-md-12" })
+                        @*  @Html.EditorFor(p => p.SurName, null, new { @class = "form-control" })*@
+                        <input type="text" name="SurName" value="@Model.SurName" class="form-control" />
+                        @Html.ValidationMessageFor(p => p.SurName, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.DiplomaNumber, null, new { @class = "control-label col-md-12" })
+                        @*  @Html.EditorFor(p => p.DiplomaNumber, null, new { @class = "form-control" })*@
+                        <input type="text" name="DiplomaNumber" value="@Model.DiplomaNumber" class="form-control" />
+                        @Html.ValidationMessageFor(p => p.DiplomaNumber, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.gsmNumber, null, new { @class = "control-label col-md-12" })
+                        @* @Html.EditorFor(p => p.gsmNumber, null, new { @class = "form-control" })*@
+                        <input type="text" name="gsmNumber" class="form-control" value="@Model.gsmNumber" />
+                        @Html.ValidationMessageFor(p => p.gsmNumber, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.doctorMailAddress, null, new { @class = "control-label col-md-12" })
+                        @*   @Html.EditorFor(p => p.doctorMailAddress, null, new { @class = "form-control" })*@
+                        <input type="email" class="form-control" name="doctorMailAddress" value="@Model.doctorMailAddress" />
+                        @Html.ValidationMessageFor(p => p.doctorMailAddress, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(p => p.password, null, new { @class = "control-label col-md-12" })
+                        <input type="text" class="form-control" name="password" value="@Model.password" />
+                        @Html.ValidationMessageFor(p => p.password, null, new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Uzmanlığı", null, new { @class = "control-label " })
+                        @Html.DropDownList("professionalId", ViewBag.professionalId as SelectList, new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Şubesi", null, new { @class = "control-label" })
+                        @Html.DropDownList("officeId", ViewBag.officeId as SelectList, "Ofis seçiniz", new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Birimi", null, new { @class = "control-label" })
+                        @Html.DropDownList("departmentId", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="doctorPicture" class="control-label col-md-12">Doktor Fotoğrafı</label>
+                        <input type="file" class="form-control col-md-12" name="doctorPicture">
+                    </div>
+                    <div class="box-footer">
+                        <br />
+                        <input type="hidden" value="@Model.doctorId" name="doctorId" />
+                        <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
+                        <button type="button" class="btn btn-danger btn-block">Vazgeç</button>
+                    </div>
+                }
+
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <h3 class="box-title">Profil Fotoğrafı</h3>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (Model.doctorPictureFile != null)
+                        {
+                            <img class="img-responsive" style="margin: 0 auto;width:350px;height:auto;" src="@Url.Content(Model.doctorPictureFile)" />
+                        }
+                        else
+                        {
+                            <img class="img-responsive" style="margin: 0 auto;width:350px;height:auto;" src="~/Images/avatar.png" />
+                        }
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+
+
+@section GetDepartment{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#officeId").change(function () {
+                $("#departmentId").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartment", "Doctor")',
+                    dataType: 'JSON',
+                    data: { officeId: $("#officeId").val() },
+                    success: function (departments) {
+                        $.each(departments, function (i, departments) {
+                            $("#departmentId").append('<option value="' + departments.Value + '">' + departments.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Departmanlar çekilemedi.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+}

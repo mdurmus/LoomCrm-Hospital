@@ -1,0 +1,71 @@
+﻿@model LoomCrm_Hospital.Models.Department
+
+@{ViewBag.Title = "Poliklinik Düzenle";}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">@Model.name Polikliniğini Düzenle</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            @using (Html.BeginForm("EditDepartment", "Department", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="box-body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.name, null, new { @class = "control-label col-md-2" })
+                        @Html.EditorFor(model => model.name, "", new { @class = "form-control col-md-10" })
+                        @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.medicalExamDuration, "Muayene Süresi (dak.)", new { @class = "control-label col-md-2" })
+                        <input type="number" value="@Model.medicalExamDuration" , min=0 name="medicalExamDuration" />
+                        @Html.ValidationMessageFor(model => model.medicalExamDuration, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Label("Şubesi", null, new { @class = "control-label col-md-2" })
+                        <input type="text" value="@Model.Office.name" disabled="disabled" />
+                        <input type="hidden" value="@Model.officeId" name="officeId" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="hidden" name="departmentId" value="@Model.departmentId" />
+                    </div>
+                    <div class="form-group">
+                        
+                        @if (Model.isActive == true)
+                        {
+                            <input type="hidden" name="isActive" value="true" />
+                        }
+                        else
+                        {
+                            <input type="hidden" name="isActive" value="false" />
+                        }
+
+                    </div>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="callout callout-warning">
+                            <h4>Dikkat!</h4>
+                            <p>
+                                Eklemeye çalıştığınız poliklinik bu şubede zaten eklenmiş durumda. Poliklinik listeleme ekranından aktif/pasif durumunu kontrol edebilirsiniz.
+                            </p>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
+                    <a href="@Url.Action("GetDepartmentList","Department")" class="btn btn-danger btn-block">Vazgeç</a>
+
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

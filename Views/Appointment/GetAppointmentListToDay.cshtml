@@ -1,0 +1,68 @@
+﻿@model IEnumerable<LoomCrm_Hospital.Models.Appointment>
+@{ViewBag.Title = "Aylık Randevu Dökümü";}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header">
+                <h3 class="box-title">Günün Randevuları</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="appointmentTable" class="display table table-bordered table-hover dataTable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Şube</th>
+                            <th>Poliklinik</th>
+                            <th>Doktor</th>
+                            <th>Hasta</th>
+                            <th>Tarih</th>
+                            <th>Saat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                         <tr>
+                             <td>@item.appointmentId</td>
+                             <td>@item.Doctor.Department.Office.name</td>
+                             <td>@item.Doctor.Department.name</td>
+                             <td>@item.Doctor.name @item.Doctor.SurName</td>
+                             <td>@item.Patient.Name @item.Patient.surName</td>
+                             <td>@item.appointmentStartDate.ToShortDateString()</td>
+                             <td>@item.appointmentStartDate.ToShortTimeString()</td>
+                         </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+
+
+
+@section Randevular{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/dataTables.bootstrap.css")">
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/jquery.dataTables.bootstrap.css")">
+    <script src="@Url.Content("~/Scripts/dataTables.bootstrap.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.dataTables.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#appointmentTable").DataTable({
+                "paging": false,
+                "info":true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Turkish.json"
+                }
+            })
+        })
+        setTimeout(function () {
+            
+            window.location.reload(1);
+        }, 30000);
+    </script>
+}

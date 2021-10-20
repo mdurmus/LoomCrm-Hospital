@@ -1,0 +1,124 @@
+﻿@model LoomCrm_Hospital.Models.Doctor
+@{ViewBag.Title = "Yeni Doktor Ekle";}
+
+
+    @if (@ViewBag.Message != null)
+    {
+        <div class="row">
+            <div class="callout callout-warning">
+                <h4>Çift kayıt uyarısı!</h4>
+                <p>
+                    @ViewBag.Message
+                </p>
+            </div>
+        </div>
+    }
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Yeni Doktor Ekle</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            @using (Html.BeginForm("CreateDoctor", "Doctor", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="box-body">
+                <div class="form-group">
+                    @Html.LabelFor(p => p.TCIdentityNumber, null, new { @class = "control-label col-md-12" })
+                    <input type="text" name="TCIdentityNumber" min="11" max="11" class="form-control" />
+                    @Html.ValidationMessageFor(p => p.TCIdentityNumber, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.name, null, new { @class = "control-label" })
+                    <input type="text" class="form-control" name="name" />
+                    @Html.ValidationMessageFor(p => p.name, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.SurName, null, new { @class = "control-label col-md-12" })
+                    <input type="text" name="SurName" class="form-control" />
+                    @Html.ValidationMessageFor(p => p.SurName, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.DiplomaNumber, null, new { @class = "control-label col-md-12" })
+                    <input type="text" name="DiplomaNumber" class="form-control" />
+                    @Html.ValidationMessageFor(p => p.DiplomaNumber, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.gsmNumber, null, new { @class = "control-label col-md-12" })
+                    <input type="text" name="gsmNumber" class="form-control" />
+                    @Html.ValidationMessageFor(p => p.gsmNumber, null, new { @class = "text-danger" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(p => p.doctorMailAddress, null, new { @class = "control-label col-md-12" })
+                    <input type="email" class="form-control" name="doctorMailAddress" />
+                    @Html.ValidationMessageFor(p => p.doctorMailAddress, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(p => p.password, null, new { @class = "control-label col-md-12" })
+                    <input type="text" class="form-control" name="password" />
+                    @Html.ValidationMessageFor(p => p.password, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Label("Uzmanlığı", null, new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("professionalId", ViewBag.professionalId as SelectList, new { @class = "form-control col-md-10" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Şubesi", null, new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("officeId", ViewBag.officeId as SelectList, "Ofis seçiniz", new { @class = "form-control col-md-10" })
+                </div>
+                <div class="form-group">
+                    @Html.Label("Birimi", null, new { @class = "control-label col-md-2" })
+                    @Html.DropDownList("departmentId", new SelectList(string.Empty, "Value", "Text"), new { @class = "form-control col-md-10" })
+                </div>
+                <div class="form-group">
+                    <label for="doctorPicture" class="control-label col-md-2">Doktor Fotoğrafı</label>
+                    <input type="file" class="form-control col-md-10" name="doctorPicture">
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer">
+
+                    <button type="submit" class="btn btn-primary btn-block">Ekle</button>
+                    <button type="button" class="btn btn-danger btn-block">Vazgeç</button>
+
+                </div>
+
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+@section GetDepartment{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#officeId").change(function () {
+                $("#departmentId").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetDepartment", "Doctor")',
+                    dataType: 'JSON',
+                    data: { officeId: $("#officeId").val() },
+                    success: function (departments) {
+                        $.each(departments, function (i, departments) {
+                            $("#departmentId").append('<option value="' + departments.Value + '">' + departments.Text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Departmanlar çekilemedi.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+}

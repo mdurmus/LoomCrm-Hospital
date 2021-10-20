@@ -1,0 +1,21 @@
+﻿@model LoomCrm_Hospital.Models.Department
+
+<div class="col-md-2">
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <h5 class="box-title">@Model.name</h5>
+        </div>
+        <div class="caption">
+            <img src="~/Images/dorukLogo.png" class="img-responsive center-block" style="width:125px;height:125px;" />
+        </div>
+        <div class="box-body clearfix">
+            <h5>Muayene Süresi : @Model.medicalExamDuration dakika</h5>
+            @using (Html.BeginForm("SelectDepartment", "Appointment", FormMethod.Post))
+            {
+                <input type="hidden" name="departmentId" value="@Model.departmentId" />
+                <input type="hidden" name="officeId" value="@ViewBag.officeId" />
+                <input type="submit" value="Seç" class="btn btn-success btn-block" />
+            }
+        </div>
+    </div>
+</div>
